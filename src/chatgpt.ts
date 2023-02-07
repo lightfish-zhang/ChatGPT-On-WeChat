@@ -12,9 +12,10 @@ const ChatGPTModelConfig = {
   // this model field is required
   model: "text-davinci-003",
   // add your ChatGPT model parameters below
-  temperature: 0,
-  max_tokens: 3600,
+  temperature: 0.1,
+  max_tokens: 2048,
   top_p: 0.1,
+  echo: true,
 };
 
 // message size for a single reply by the bot

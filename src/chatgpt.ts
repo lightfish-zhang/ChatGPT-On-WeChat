@@ -10,14 +10,14 @@ const chatgptErrorMessage = "🤖️：AI机器人摆烂了，请稍后再试～
 // please refer to the OpenAI API doc: https://beta.openai.com/docs/api-reference/introduction
 const ChatGPTModelConfig = {
   // this model field is required
-  model: "code-davinci-002",
+  model: "text-davinci-003",
   // add your ChatGPT model parameters below
-  // temperature: 0.3,
-  // max_tokens: 2000,
+  temperature: 1,
+  max_tokens: 3600,
 };
 
 // message size for a single reply by the bot
-const SINGLE_MESSAGE_MAX_SIZE = 500;
+const SINGLE_MESSAGE_MAX_SIZE = 10000;
 
 enum MessageType {
   Unknown = 0,
@@ -47,7 +47,8 @@ export class ChatGPTBot {
 
   // Chatgpt fine-tune for being a chatbot (guided by OpenAI official document)
   applyContext(text: string): string {
-    return `You are an artificial intelligence bot from a company called "OpenAI". Your primary tasks are chatting with users and answering their questions.\nIf the user says: ${text}.\nYou will say: `;
+    return text
+    // return `You are an artificial intelligence bot from a company called "OpenAI". Your primary tasks are chatting with users and answering their questions.\nIf the user says: ${text}.\nYou will say: `;
   }
 
   setBotName(botName: string) {
@@ -153,7 +154,7 @@ export class ChatGPTBot {
         ...ChatGPTModelConfig,
         prompt: inputMessage,
       });
-      console.log("🤖️ Chatbot response: ", response);
+      // console.log("🤖️ Chatbot response: ", response);
       // use OpenAI API to get ChatGPT reply message
       const chatgptReplyMessage = response?.data?.choices[0]?.text?.trim();
       console.log("🤖️ Chatbot says: ", chatgptReplyMessage);

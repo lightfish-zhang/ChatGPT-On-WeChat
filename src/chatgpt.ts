@@ -153,6 +153,7 @@ export class ChatGPTBot {
         ...ChatGPTModelConfig,
         prompt: inputMessage,
       });
+      console.log("🤖️ Chatbot response: ", response);
       // use OpenAI API to get ChatGPT reply message
       const chatgptReplyMessage = response?.data?.choices[0]?.text?.trim();
       console.log("🤖️ Chatbot says: ", chatgptReplyMessage);

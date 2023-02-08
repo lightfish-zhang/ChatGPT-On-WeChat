@@ -93,6 +93,9 @@ export class ChatGPTBot {
     if (item.length > 1) {
       text = item[item.length - 1];
     }
+    if (Config.whileUserList.length > 0) {
+      return text
+    }
     return text.slice(
       isPrivateChat
         ? this.chatgptTriggerKeyword.length
@@ -104,18 +107,13 @@ export class ChatGPTBot {
   triggerGPTMessage(talker: ContactInterface, text: string, isPrivateChat: boolean = false): boolean {
     const chatgptTriggerKeyword = this.chatgptTriggerKeyword;
     let triggered = false;
-    if (isPrivateChat) {
-
+    if (Config.whileUserList.length > 0) {
+      triggered = Config.whileUserList.includes(talker.name());
+    } else if (isPrivateChat) {
       // keyword
       triggered = chatgptTriggerKeyword
         ? text.startsWith(chatgptTriggerKeyword)
         : true;
-
-      // while user not need keyword
-      triggered = triggered
-        ? triggered
-        : Config.whileUserList.includes(talker.name());
-
     } else {
       // due to un-unified @ lagging character, ignore it and just match:
       //    1. the "@username" (mention)

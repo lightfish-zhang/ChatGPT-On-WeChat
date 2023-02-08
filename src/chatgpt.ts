@@ -101,13 +101,21 @@ export class ChatGPTBot {
   }
 
   // check whether ChatGPT bot can be triggered
-  triggerGPTMessage(text: string, isPrivateChat: boolean = false): boolean {
+  triggerGPTMessage(talker: ContactInterface, text: string, isPrivateChat: boolean = false): boolean {
     const chatgptTriggerKeyword = this.chatgptTriggerKeyword;
     let triggered = false;
     if (isPrivateChat) {
+
+      // keyword
       triggered = chatgptTriggerKeyword
         ? text.startsWith(chatgptTriggerKeyword)
         : true;
+
+      // while user not need keyword
+      triggered = triggered
+        ? triggered
+        : Config.whileUserList.includes(talker.name());
+
     } else {
       // due to un-unified @ lagging character, ignore it and just match:
       //    1. the "@username" (mention)
@@ -218,7 +226,7 @@ export class ChatGPTBot {
     //    2. doesn't trigger bot (e.g. wrong trigger-word)
     if (
       this.isNonsense(talker, messageType, rawText) ||
-      !this.triggerGPTMessage(rawText, isPrivateChat)
+      !this.triggerGPTMessage(talker, rawText, isPrivateChat)
     ) {
       return;
     }

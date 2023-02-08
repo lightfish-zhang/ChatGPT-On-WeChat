@@ -19,7 +19,7 @@ const ChatGPTModelConfig = {
 };
 
 // message size for a single reply by the bot
-const SINGLE_MESSAGE_MAX_SIZE = 10000;
+const SINGLE_MESSAGE_MAX_SIZE = 2000;
 
 enum MessageType {
   Unknown = 0,
